@@ -1,60 +1,44 @@
-# Proyecto Laravel
+<p align="center">
+  <a href="https://laravel.com" target="_blank">
+    <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo">
+  </a>
+</p>
 
-Este repositorio contiene un proyecto desarrollado con Laravel y Vite.  
+<p align="center">
+  <a href="https://github.com/tuusuario/tu-repo/actions"><img src="https://github.com/tuusuario/tu-repo/workflows/tests/badge.svg" alt="Build Status"></a>
+  <a href="https://packagist.org/packages/laravel/laravel"><img src="https://img.shields.io/packagist/dt/laravel/laravel" alt="Total Downloads"></a>
+  <a href="https://packagist.org/packages/laravel/laravel"><img src="https://img.shields.io/packagist/v/laravel/laravel" alt="Latest Stable Version"></a>
+  <a href="https://packagist.org/packages/laravel/laravel"><img src="https://img.shields.io/packagist/l/laravel/laravel" alt="License"></a>
+</p>
+
+## 📖 Proyecto Laravel
+
+Este repositorio contiene un proyecto desarrollado con **Laravel** y **Vite**.  
 Para que funcione correctamente después de clonar, sigue estas indicaciones:
 
-Primero clona el repositorio y entra en la carpeta del proyecto:
-
 ```bash
+# Clonar el repositorio
 git clone https://github.com/tuusuario/tu-repo.git
 cd tu-repo
-Instala las dependencias de PHP con Composer:
 
-bash
+# Instalar dependencias de PHP
 composer install
-y las dependencias de frontend con npm:
 
-bash
+# Instalar dependencias de frontend
 npm install
 npm run dev   # o npm run build en producción
-Copia el archivo de entorno de ejemplo y configúralo:
 
-bash
+# Configurar variables de entorno
 cp .env.example .env
-Edita el archivo .env para añadir tus credenciales de base de datos y la URL de la aplicación, luego genera la clave de la aplicación:
-
-bash
 php artisan key:generate
-Si tu proyecto incluye migraciones y seeders, ejecútalos:
 
-bash
+# Ejecutar migraciones y seeders (si aplica)
 php artisan migrate
 php artisan db:seed   # opcional
-Crea el enlace de almacenamiento para archivos públicos:
 
-bash
+# Crear enlace de almacenamiento
 php artisan storage:link
-Finalmente inicia el servidor de desarrollo:
 
-bash
+# Iniciar servidor de desarrollo
 php artisan serve
-y abre la aplicación en http://localhost:8000.
 
-Recuerda que no debes subir la carpeta vendor/ ni node_modules/ al repositorio, ya que se regeneran con los comandos de instalación. Tampoco subas tu archivo .env, que contiene credenciales privadas; usa siempre .env.example como plantilla. Incluye composer.lock y package-lock.json para asegurar que las dependencias se instalen con las mismas versiones. Si notas errores en producción, limpia y reconstruye cachés con:
-
-bash
-php artisan config:clear
-php artisan route:clear
-php artisan view:clear
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-Este proyecto fue desarrollado por Luz como parte de sus prácticas en Laravel.
-
-Código
-
----
-
-Así queda todo en un solo bloque narrativo, sin secciones separadas, con las instrucciones claras y ordenadas para que se vea bonito en tu GitHub.  
-
-¿Quieres que te prepare también un `.gitignore` optimizado y lo incluya al final del mismo README para que quede todo en un único archivo?
