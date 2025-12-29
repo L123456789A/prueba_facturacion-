@@ -4,65 +4,89 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use App\Models\Ciudad;
+use App\Models\TipoDocumento;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
+    // Listar clientes
     public function index()
     {
-        $clientes = Cliente::with('ciudad')->get();
+        // Traemos todos los clientes con su ciudad y tipo de documento
+        $clientes = Cliente::with(['ciudad', 'tipoDocumento'])->get();
         return view('cliente.index', compact('clientes'));
     }
 
+    // Mostrar formulario para crear cliente
     public function create()
     {
         $ciudades = Ciudad::all();
-        return view('cliente.create', compact('ciudades'));
+        $tiposDocumento = TipoDocumento::all();
+        return view('cliente.create', compact('ciudades', 'tiposDocumento'));
     }
 
+    // Guardar cliente
     public function store(Request $request)
     {
         $request->validate([
-            'Documento' => 'required|unique:cliente,Documento',
-            'Nombres' => 'required',
-            'Apellidos' => 'required',
-            'Direccion' => 'required',
-            'cod_ciudad' => 'required',
-            'Telefono' => 'required'
+            'documento'          => 'required|unique:cliente,documento',
+            'cod_tipo_documento' => 'required|integer|exists:tipo_de_documento,id_tipo_documento',
+            'nombres'            => 'required|string|max:100',
+            'apellidos'          => 'required|string|max:100',
+            'direccion'          => 'required|string|max:255',
+            'cod_ciudad'         => 'required|exists:ciudad,codigo_ciudad',
+            'telefono'           => 'required|string|max:20',
         ]);
 
-        Cliente::create($request->all());
+        Cliente::create($request->only([
+            'documento', 'cod_tipo_documento', 'nombres', 'apellidos', 'direccion', 'cod_ciudad', 'telefono'
+        ]));
 
-        return redirect()->route('cliente.index')->with('success', 'Cliente registrado correctamente.');
+        return redirect()->route('cliente.index')
+                         ->with('success', 'Cliente registrado correctamente.');
     }
 
-    public function show($Documento)
+    // Ver cliente (detalle)
+    public function show(Cliente $cliente)
     {
-        $cliente = Cliente::findOrFail($Documento);
+        $cliente->load(['ciudad', 'tipoDocumento']);
         return view('cliente.show', compact('cliente'));
     }
 
-    public function edit($Documento)
+    // Mostrar formulario para editar cliente
+    public function edit(Cliente $cliente)
     {
-        $cliente = Cliente::findOrFail($Documento);
         $ciudades = Ciudad::all();
-        return view('cliente.edit', compact('cliente', 'ciudades'));
+        $tiposDocumento = TipoDocumento::all();
+        return view('cliente.edit', compact('cliente', 'ciudades', 'tiposDocumento'));
     }
 
-    public function update(Request $request, $Documento)
+    // Actualizar cliente
+    public function update(Request $request, Cliente $cliente)
     {
-        $cliente = Cliente::findOrFail($Documento);
+        $request->validate([
+            'cod_tipo_documento' => 'required|integer|exists:tipo_de_documento,id_tipo_documento',
+            'nombres'            => 'required|string|max:100',
+            'apellidos'          => 'required|string|max:100',
+            'direccion'          => 'required|string|max:255',
+            'cod_ciudad'         => 'required|exists:ciudad,codigo_ciudad',
+            'telefono'           => 'required|string|max:20',
+        ]);
 
-        $cliente->update($request->all());
+        $cliente->update($request->only([
+            'cod_tipo_documento', 'nombres', 'apellidos', 'direccion', 'cod_ciudad', 'telefono'
+        ]));
 
-        return redirect()->route('cliente.index')->with('success', 'Cliente actualizado correctamente.');
+        return redirect()->route('cliente.index')
+                         ->with('success', 'Cliente actualizado correctamente.');
     }
 
-    public function destroy($Documento)
+    // Eliminar cliente
+    public function destroy(Cliente $cliente)
     {
-        Cliente::destroy($Documento);
-
-        return redirect()->route('cliente.index')->with('success', 'Cliente eliminado correctamente.');
+        $cliente->delete();
+        return redirect()->route('cliente.index')
+                         ->with('success', 'Cliente eliminado correctamente.');
     }
 }
 
